@@ -24,8 +24,7 @@
     </div>
 </div>
 <div class="main">
-        
-  
+
     <div class="section text-center">
     <div class="container">
         <div class="row">
@@ -37,12 +36,18 @@
             </div>
         </div>
         <br><br>
+        <button type="button" (click)="createTagButtons()">populateTags</button>
         <div id="tag-output"></div>
         <br><br><br><br>
         <div class="row">
             <div class="col-md-8 mr-auto ml-auto">
-                <button type="button" (click)="createTagButtons()" class="btn btn-danger btn-lg btn-round">Copy All to Clipboard</button>
+                <button type="button" (click)="copyToClipboard()" class="btn btn-danger btn-lg btn-round">Copy All to Clipboard</button>
             </div>
+            
+        </div>
+        <br>
+        <div>
+            <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
         </div>
         <!-- <div class="row">
             <div class="col-md-3">
