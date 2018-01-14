@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon ./bin/www"
   },
   "author": "lli-dev",
   "license": "MIT",
