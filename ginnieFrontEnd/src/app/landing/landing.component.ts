@@ -2,6 +2,7 @@ import { Component, OnInit, Input, NgZone  } from '@angular/core';
 import { Cloudinary } from '@cloudinary/angular-4.x';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { HttpClient } from '@angular/common/http';
+import { print } from 'util';
 
 @Component({
     selector: 'app-landing',
@@ -150,5 +151,27 @@ export class LandingComponent implements OnInit {
     return Object.keys(fileProperties)
       .map((key) => ({ 'key': key, 'value': fileProperties[key] }));
   }
+
+  // MOCK FUNCTION FOR POPULATING TAGS
+  createTagButtons() {
+    var tagOutput = document.getElementById("tag-output");
+
+    var btnClasses = [
+      "btn tag-button btn-sm btn-outline-default",
+      "btn tag-button btn-sm btn-outline-primary",
+      "btn tag-button btn-sm btn-outline-info",
+      "btn tag-button btn-sm btn-outline-success",
+      "btn tag-button btn-sm btn-outline-warning",
+      "btn tag-button btn-sm btn-outline-danger"
+    ];
+
+    var mockTags = ["#nwhacks","#vancouver","#markzuckerberg","#nwhacks2018","#water","#nosleepteam","#oranges","#apples","#poster","#dafuq"];
+
+    for (var i = 1, len = mockTags.length, btnClassesLen = btnClasses.length; i < len; i++) {
+      var newElement = '<button _ngcontent-c3 type="button" class="' + btnClasses[i%btnClasses.length] + '">' + mockTags[i] + '</button>'
+      tagOutput.insertAdjacentHTML('beforeend', newElement);
+    } 
+  }
+
 }
 

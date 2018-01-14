@@ -37,19 +37,11 @@
             </div>
         </div>
         <br><br>
-        <div class="tag-output">
-            <button type="button" class="btn tag-button btn-sm btn-default">#nwhacks</button>
-            <button type="button" class="btn tag-button btn-sm btn-primary">#vancouver</button>
-            <button type="button" class="btn tag-button btn-sm btn-info">#markzuckerberg</button>
-            <button type="button" class="btn tag-button btn-sm btn-success">#nwhacks2018</button>
-            <button type="button" class="btn tag-button btn-sm btn-warning">#water</button>
-            <button type="button" class="btn tag-button btn-sm btn-danger">#nosleepteam</button>
-            <button type="button" class="btn tag-button btn-sm btn-default">#oranges</button>
-        </div>
+        <div id="tag-output"></div>
         <br><br><br><br>
         <div class="row">
             <div class="col-md-8 mr-auto ml-auto">
-                <button type="button" class="btn btn-danger btn-lg btn-round">Copy to Clipboard</button>
+                <button type="button" (click)="createTagButtons()" class="btn btn-danger btn-lg btn-round">Copy All to Clipboard</button>
             </div>
         </div>
         <!-- <div class="row">
