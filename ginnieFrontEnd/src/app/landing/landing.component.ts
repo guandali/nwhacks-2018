@@ -229,6 +229,7 @@ export class LandingComponent implements OnInit {
 
       var newElement = '<button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + tagItem + '</button>'
       this.allTags.push(tagItem);
+
       tagOutput.insertAdjacentHTML('beforeend', newElement);
     } 
   }
@@ -266,4 +267,3 @@ export class LandingComponent implements OnInit {
   }
 
 }
-
