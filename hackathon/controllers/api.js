@@ -13,6 +13,13 @@ const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const paypal = require('paypal-rest-sdk');
 const lob = require('lob')(process.env.LOB_KEY);
 const ig = bluebird.promisifyAll(require('instagram-node').instagram());
+//use var? 
+const cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET
+});
 const foursquare = require('node-foursquare')({
   secrets: {
     clientId: process.env.FOURSQUARE_ID,
@@ -565,6 +572,11 @@ exports.getFileUpload = (req, res) => {
 };
 
 exports.postFileUpload = (req, res) => {
+  console.log(res);
+  var imagePath = res.file
+  // cloudinary.uploader.upload("my_picture.jpg", function(result) { 
+  //   console.log(result) 
+  // });  
   req.flash('success', { msg: 'File was uploaded successfully.' });
   res.redirect('/api/upload');
 };

@@ -4,19 +4,20 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
   "author": "lli-dev",
   "license": "MIT",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
+    "@google-cloud/storage": "^1.5.2",
+    "@google-cloud/vision": "^0.14.0",
     "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "method-override": "^2.3.10",
     "mongoose": "^4.13.9",
     "morgan": "^1.9.0",
-    "node-restful": "^0.2.6"
+    "node-restful": "^0.2.6",
+    "request": "^2.83.0"
   }
 }
