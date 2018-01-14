@@ -25,33 +25,12 @@
 	</form>
 	<h2>Status</h2>
 	<div class="file" *ngFor="let response of responses; let i = index">
-		<h3>{{response.file.name}}</h3>
-    <button class="delete-image" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">Delete image</button>
+		<h4>{{response.file.name}}</h4>
+    <!-- <button class="delete-image" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">Delete image</button> -->
 		<div class="status">
 			Uploading... {{response.progress}}%
-			<div *ngIf="!response.status">In progress</div>
-			<div class="status-code" *ngIf="response.status">Upload completed with status code {{response.status}}</div>
-		</div>
-		<div class="progress-bar">
-			<div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
-		</div>
-		<div class="form_line">
-			<div class="form_controls">
-				<div class="preview">
-					<!-- Consider using https://github.com/valor-software/ng2-file-upload/issues/461 for image preview -->
-				</div>
-			</div>
-		</div>
-		<div class="info">
-			<table>
-				<tr *ngFor="let property of getFileProperties(response.data)">
-					<td> {{ property.key }} </td>
-					<td> {{ property.value | json}} </td>
-				</tr>
-			</table>
 		</div>
 	</div>
 
 </div>
 
-<a routerLink="" class="back_link">Back to list</a>

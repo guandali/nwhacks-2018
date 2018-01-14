@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, NgZone  } from '@angular/core';
 import { Cloudinary } from '@cloudinary/angular-4.x';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
     selector: 'app-landing',
@@ -12,18 +12,18 @@ import { HttpClient } from '@angular/common/http';
 export class LandingComponent implements OnInit {
   @Input()
   responses: Array<any>;
+  tags: Array<any>;
 
   private hasBaseDropZoneOver: boolean = false;
   private uploader: FileUploader;
-  private title: string;
 
   constructor(
     private cloudinary: Cloudinary,
     private zone: NgZone,
-    private http: HttpClient
+    private larry: HttpClient
   ) {
     this.responses = [];
-    this.title = '';
+    this.tags = [];
   }
 
   ngOnInit(): void {
@@ -51,10 +51,6 @@ export class LandingComponent implements OnInit {
       form.append('upload_preset', this.cloudinary.config().upload_preset);
       // Add built-in and custom tags for displaying the uploaded photo in the list
       let tags = 'myphotoalbum';
-      if (this.title) {
-        form.append('context', `photo=${this.title}`);
-        tags = `myphotoalbum,${this.title}`;
-      }
       // Upload to a custom folder
       // Note that by default, when uploading via the API, folders are not automatically created in your Media Library.
       // In order to automatically create the folders based on the API requests,
@@ -63,15 +59,49 @@ export class LandingComponent implements OnInit {
       // Add custom tags
       form.append('tags', tags);
       // Add file to upload
-      form.append('file', fileItem);
+      form.append('file', fileItem)
 
       // Use default "withCredentials" value for CORS requests
       fileItem.withCredentials = false;
       return { fileItem, form };
     };
 
+    const makePostReq = function (data, larry){
+      console.log('hello');
+      const img_url = {'imageUri' : data};
+      console.log(img_url);
+      const server_url = 'https://nameless-headland-72211.herokuapp.com/api/image';
+
+      const headers = new HttpHeaders();
+      const options = { headers: headers };
+
+      larry.post(server_url, img_url, options).subscribe(
+        resp => {
+
+          console.log(`POST request made to - ${server_url} with image url - ${img_url}`);
+          console.log(resp);
+          updateTags(resp);
+  
+        },
+        error => {
+          console.log(error);
+          console.log('Failed to make POST request');
+        });
+     };
+
+     const updateTags = data => {
+      console.log(this.tags);
+      console.log(data);
+       
+       for (var i = 0; i < data.length; i++) {
+        this.tags.push(data[i]);
+      };
+      console.log(this.tags)
+     }
+
     // Insert or update an entry in the responses array
     const upsertResponse = fileItem => {
+      console.log(this.responses);
 
       // Run the update in a custom zone since for some reason change detection isn't performed
       // as part of the XHR request to upload the files.
@@ -92,6 +122,7 @@ export class LandingComponent implements OnInit {
         } else {
           // Create new response
           this.responses.push(fileItem);
+          console.log(this.responses);
         }
       });
     };
@@ -106,6 +137,10 @@ export class LandingComponent implements OnInit {
         }
       );
 
+    this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
+      var data = JSON.parse(response).url;
+      makePostReq(data, this.larry);
+    };
     // Update model on upload progress event
     this.uploader.onProgressItem = (fileItem: any, progress: any) =>
       upsertResponse(
@@ -115,10 +150,6 @@ export class LandingComponent implements OnInit {
           data: {}
         }
       );
-  }
-
-  updateTitle(value: string) {
-    this.title = value;
   }
 
   // Delete an uploaded image
