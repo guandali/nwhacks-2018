@@ -34,18 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="info">
-                        <table>
-                            <tr *ngFor="let property of getFileProperties(response.data)">
-                                <td> {{ property.key }} </td>
-                                <td> {{ property.value | json}} </td>
-                            </tr>
-                        </table>
-                    </div> -->
                 </div>
-            <!-- <form action="fileupload"
-                class="dropzone" id="my-awesome-dropzone"  #fileInput ng2FileSelect [uploader]="uploader" placeholder=" Drag-and-drop or click here to upload your image!">
-            </form> -->
         </div>
     </div>
 </div>
@@ -56,21 +45,20 @@
         <div class="row">
             <div class="col-md-8 mr-auto ml-auto">
                 <h2 class="title">Here are your tags!</h2>
-                <h5 class="description">Click the "Copy to Clipboard" button to copy all tags, <br/>or only copy the ones you want by clicking each tag.</h5>
+                <!-- <textarea rows="20" height="50" placeholder="{{tags}}"></textarea> -->
+
+
+            <!-- <div ng-repeat="tag in tags" >
+                    <button>{{tag}}</button> -->
+            <!-- </div> -->
+                <h5 class="description">Click the "Copy to Clipboard" to copy all tags, <br/>or only copy the ones you want by clicking each tag.</h5>
                 <br>
                 <!-- <a href="#paper-kit" class="btn btn-danger btn-round">See Details</a> -->
-            </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
         <br><br>
         <!-- <button type="button" (click)="createTagButtons()">populateTags</button> -->
-
-        <div class="file" ngFor = "let tag of tags; let t = index" >
-                <h4>{{tag}}</h4>
-                <button>{{tag}}</button>
-                <!-- <button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + mockTags[i] + </button> -->
-
-            </div>
-
+        <!-- {{tags}} -->
         <div id="tag-output"></div>
         <br><br><br><br>
         <div class="row">
