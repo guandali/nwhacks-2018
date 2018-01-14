@@ -34,14 +34,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="info">
+                    <!-- <div class="info">
                         <table>
                             <tr *ngFor="let property of getFileProperties(response.data)">
                                 <td> {{ property.key }} </td>
                                 <td> {{ property.value | json}} </td>
                             </tr>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             <!-- <form action="fileupload"
                 class="dropzone" id="my-awesome-dropzone"  #fileInput ng2FileSelect [uploader]="uploader" placeholder=" Drag-and-drop or click here to upload your image!">
@@ -62,7 +62,15 @@
             </div>
         </div>
         <br><br>
-        <button type="button" (click)="createTagButtons()">populateTags</button>
+        <!-- <button type="button" (click)="createTagButtons()">populateTags</button> -->
+
+        <div class="file" ngFor = "let tag of tags; let t = index" >
+                <h4>{{tag}}</h4>
+                <button>{{tag}}</button>
+                <!-- <button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + mockTags[i] + </button> -->
+
+            </div>
+
         <div id="tag-output"></div>
         <br><br><br><br>
         <div class="row">
