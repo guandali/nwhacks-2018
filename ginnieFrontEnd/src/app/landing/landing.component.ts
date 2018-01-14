@@ -97,6 +97,7 @@ export class LandingComponent implements OnInit {
           console.log(`POST request made to - ${server_url} with image url - ${img_url}`);
           console.log(resp);
           updateTags(resp);
+          triggerTagCreation(resp);
   
         },
         error => {
@@ -104,6 +105,10 @@ export class LandingComponent implements OnInit {
           console.log('Failed to make POST request');
         });
      };
+
+     const triggerTagCreation = data => {
+       this.createTagButtons();
+     }
 
      const updateTags = data => {
       console.log(this.tags);
@@ -215,10 +220,11 @@ export class LandingComponent implements OnInit {
       "btn tag-button btn-sm btn-outline-danger"
     ];
 
-    var mockTags = ["#nwhacks","#vancouver","#markzuckerberg","#nwhacks2018","#water","#nosleepteam","#oranges","#apples","#poster","#dafuq"];
+    //var mockTags = ["#nwhacks","#vancouver","#markzuckerberg","#nwhacks2018","#water","#nosleepteam","#oranges","#apples","#poster","#dafuq"];
+    var tagArrLen = (this.tags.length > 30) ? 30 : this.tags.length;
 
-    for (var i = 1, len = mockTags.length, btnClassesLen = btnClasses.length; i < len; i++) {
-      var newElement = '<button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + mockTags[i] + '</button>'
+    for (var i = 1, btnClassesLen = btnClasses.length; i < tagArrLen; i++) {
+      var newElement = '<button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + '#' + this.tags[i] + '</button>'
       tagOutput.insertAdjacentHTML('beforeend', newElement);
     } 
   }
