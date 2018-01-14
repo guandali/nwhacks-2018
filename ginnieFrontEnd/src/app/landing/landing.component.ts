@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { print } from 'util';
 import { Subject } from 'rxjs/Subject';
 import { debounceTime } from 'rxjs/operator/debounceTime';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'app-landing',
@@ -20,9 +21,10 @@ export class LandingComponent implements OnInit {
   private hasBaseDropZoneOver: boolean = false;
   private uploader: FileUploader;
 
-  private allTags: Array<string>;
-  private selectedTags: Array<string>;
+  private allTags: Array<string> = Array<string>();
+  private selectedTags: Array<string> = Array<string>();
 
+  private numOfMaxTags: number = 30;
   private _success = new Subject<string>();
 
   staticAlertClosed = false;
@@ -204,7 +206,7 @@ export class LandingComponent implements OnInit {
   }
 
   changeSuccessMessage() {
-    this._success.next(`${new Date()} - Message successfully changed.`);
+    this._success.next('Successfully copied all tags to clipboard!');
   }
 
   // MOCK FUNCTION FOR POPULATING TAGS
@@ -220,11 +222,13 @@ export class LandingComponent implements OnInit {
       "btn tag-button btn-sm btn-outline-danger"
     ];
 
-    //var mockTags = ["#nwhacks","#vancouver","#markzuckerberg","#nwhacks2018","#water","#nosleepteam","#oranges","#apples","#poster","#dafuq"];
-    var tagArrLen = (this.tags.length > 30) ? 30 : this.tags.length;
+    var tagArrLen = (this.tags.length > this.numOfMaxTags) ? this.numOfMaxTags : this.tags.length;
 
-    for (var i = 1, btnClassesLen = btnClasses.length; i < tagArrLen; i++) {
-      var newElement = '<button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + '#' + this.tags[i] + '</button>'
+    for (var i = 0, btnClassesLen = btnClasses.length; i < tagArrLen; i++) {
+      var tagItem = "#" + this.tags[i].toLowerCase();
+
+      var newElement = '<button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + tagItem + '</button>'
+      this.allTags.push(tagItem);
       tagOutput.insertAdjacentHTML('beforeend', newElement);
     } 
   }
@@ -234,6 +238,30 @@ export class LandingComponent implements OnInit {
   }
 
   copyToClipboard() {
+    
+    var tagString = this.allTags[0];
+    for (var i = 1, len = this.allTags.length; i < len; i++) {
+      tagString = tagString.concat(", " + this.allTags[i]);
+    }
+
+      // create temp element
+      var tagOutput = document.getElementById("tag-output");
+      var copyElement = document.createElement("span");
+      copyElement.appendChild(document.createTextNode(tagString));
+      copyElement.id = 'tempCopyToClipboard';
+      tagOutput.insertAdjacentElement('beforeend', copyElement);
+  
+      // select the text
+      var range = document.createRange();
+      range.selectNode(copyElement);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+  
+      // copy & cleanup
+      document.execCommand('copy');
+      window.getSelection().removeAllRanges();
+      copyElement.remove();
+
     this.changeSuccessMessage();
   }
 
