@@ -6,11 +6,18 @@
             <h3>Drag-and-Drop or upload your image</h3>
             <br />
             <!-- <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-outline-neutral btn-round"><i class="fa fa-play"></i>Watch video</a> -->
-            <button type="button" class="btn btn-outline-neutral btn-round">Upload</button>
+            <button type="button" action="/file-upload" class="btn btn-outline-neutral btn-round">Upload</button>
+            <br><br />
+            <form action="/file-upload"
+                class="dropzone"
+                id="my-awesome-dropzone" placeholder=" Drag-and-drop or click here to upload your image!">
+            </form>
         </div>
     </div>
 </div>
 <div class="main">
+        
+  
     <!-- <div class="section text-center">
     <div class="container">
         <div class="row">
