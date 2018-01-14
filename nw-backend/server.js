@@ -5,10 +5,8 @@ var express = require('express'),
     morgan = require('morgan'),
     restful = require('node-restful'),
     request = require('request');
-    require('./credentials')
-
 var app = module.exports = express();
-//var mConnect = mongoose.connect('mongodb://thebuzzers:cs310project@ds059145.mongolab.com:59145/comicbuzzdb');
+var vision = require('./api/vision');
 var mConnect = mongoose.connect("mongodb://nw-test:test1000002@ds255347.mlab.com:55347/nwhacks2018");
 
 app.use(morgan('dev'));
@@ -16,9 +14,17 @@ app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 app.use(methodOverride());
-
 app.get('/', function (req, res) {
     res.send('Hello World!')
+})
+
+app.post('/api/image', function (req, res) {
+    var imageUri = req.body.imageUri;
+    console.log(JSON.stringify(imageUri));
+    //var imageUri = 'http://res.cloudinary.com/dlehndc9n/image/upload/v1471825024/vk5vs8sx045ir2rf0xc3.jpg'
+    vision.webDetection(imageUri, (err, data)=>{
+        res.json(data);
+    });
 })
 
 app.listen(3000);
