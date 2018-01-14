@@ -249,14 +249,15 @@
     }
 }
 .moving-clouds{
+    top: 15%;
     position: absolute;
     z-index: 1;
     bottom: 0;
     left: 0;
     width: 250.625em;
     height: 43.75em;
-    -webkit-animation: cloudLoop 80s linear infinite;
-    animation: cloudLoop 80s linear infinite;
+    -webkit-animation: cloudLoop 60s linear infinite;
+    animation: cloudLoop 60s linear infinite;
 }
 
 @keyframes cloudLoop{   0%{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
