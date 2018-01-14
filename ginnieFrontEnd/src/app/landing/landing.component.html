@@ -3,13 +3,15 @@
     <div class="container">
         <div class="moving-clouds" style="background-image: url('assets/img/hashtags.png'); "></div>
         <div class="motto text-center">
-            <h1>Upload your picture</h1>
-            <h3>Drag-and-Drop or upload your image</h3>
-            <br />
+            <h1><b>AI-powered Tag Generator</b></h1>
+            <h4>#for #all #your #social #media #needs</h4>
+            <br><br><br>
             <!-- <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-outline-neutral btn-round"><i class="fa fa-play"></i>Watch video</a> -->
             <div class="form_controls">
-				<div class="btn btn-outline-neutral btn-round">
-					<label for="fileupload">Upload</label>
+				<div class="btn btn-outline-neutral btn-lg btn-round">
+                <!-- <div> -->
+                    <label id="upload-photo" for="fileupload">UPLOAD PHOTO</label>
+                    <!-- <button class="btn btn-outline-neutral btn-lg btn-round" for="fileupload">UPLOAD PHOTO</button> -->
 					<!-- onChange hanlder resets the input value to get the change event when uploading the same file consecutively -->
 					<input type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value=''" multiple />
 				</div>
@@ -47,5 +49,29 @@
         </div>
     </div>
 </div>
+<div class="main">
 
-
+    <div class="section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mr-auto ml-auto">
+                <h2 class="title">Here are your tags!</h2>
+                <h5 class="description">Click the "Copy to Clipboard" button to copy all tags, <br/>or only copy the ones you want by clicking each tag.</h5>
+                <br>
+                <!-- <a href="#paper-kit" class="btn btn-danger btn-round">See Details</a> -->
+            </div>
+        </div>
+        <br><br>
+        <button type="button" (click)="createTagButtons()">populateTags</button>
+        <div id="tag-output"></div>
+        <br><br><br><br>
+        <div class="row">
+            <div class="col-md-8 mr-auto ml-auto">
+                <button type="button" (click)="copyToClipboard()" class="btn btn-danger btn-lg btn-round">Copy All to Clipboard</button>
+            </div>
+            
+        </div>
+        <br>
+        <div>
+            <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+        </div>

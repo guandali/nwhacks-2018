@@ -2,6 +2,9 @@ import { Component, OnInit, Input, NgZone  } from '@angular/core';
 import { Cloudinary } from '@cloudinary/angular-4.x';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders } from 'ng2-file-upload';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { print } from 'util';
+import { Subject } from 'rxjs/Subject';
+import { debounceTime } from 'rxjs/operator/debounceTime';
 
 @Component({
     selector: 'app-landing',
@@ -17,6 +20,14 @@ export class LandingComponent implements OnInit {
   private hasBaseDropZoneOver: boolean = false;
   private uploader: FileUploader;
 
+  private allTags: Array<string>;
+  private selectedTags: Array<string>;
+
+  private _success = new Subject<string>();
+
+  staticAlertClosed = false;
+  successMessage: string;
+
   constructor(
     private cloudinary: Cloudinary,
     private zone: NgZone,
@@ -27,6 +38,11 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Notification setup
+    setTimeout(() => this.staticAlertClosed = true, 20000);
+    this._success.subscribe((message) => this.successMessage = message);
+    debounceTime.call(this._success, 5000).subscribe(() => this.successMessage = null);
+
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
@@ -181,5 +197,39 @@ export class LandingComponent implements OnInit {
     return Object.keys(fileProperties)
       .map((key) => ({ 'key': key, 'value': fileProperties[key] }));
   }
+
+  changeSuccessMessage() {
+    this._success.next(`${new Date()} - Message successfully changed.`);
+  }
+
+  // MOCK FUNCTION FOR POPULATING TAGS
+  createTagButtons() {
+    var tagOutput = document.getElementById("tag-output");
+
+    var btnClasses = [
+      "btn tag-button btn-sm btn-outline-default",
+      "btn tag-button btn-sm btn-outline-primary",
+      "btn tag-button btn-sm btn-outline-info",
+      "btn tag-button btn-sm btn-outline-success",
+      "btn tag-button btn-sm btn-outline-warning",
+      "btn tag-button btn-sm btn-outline-danger"
+    ];
+
+    var mockTags = ["#nwhacks","#vancouver","#markzuckerberg","#nwhacks2018","#water","#nosleepteam","#oranges","#apples","#poster","#dafuq"];
+
+    for (var i = 1, len = mockTags.length, btnClassesLen = btnClasses.length; i < len; i++) {
+      var newElement = '<button _ngcontent-c3 (click)="tagButtonClicked()" type="button" class="' + btnClasses[i%btnClasses.length] + '">' + mockTags[i] + '</button>'
+      tagOutput.insertAdjacentHTML('beforeend', newElement);
+    } 
+  }
+
+  tagButtonClicked() {
+    console.log("haha");
+  }
+
+  copyToClipboard() {
+    this.changeSuccessMessage();
+  }
+
 }
 
