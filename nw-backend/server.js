@@ -4,9 +4,11 @@ var express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     restful = require('node-restful'),
-    request = require('request');
+    request = require('request'),
+    cors = require('cors');
 var app = module.exports = express();
 var vision = require('./api/vision');
+var imagga = require('./api/imagga');
 var mConnect = mongoose.connect("mongodb://nw-test:test1000002@ds255347.mlab.com:55347/nwhacks2018");
 
 app.use(morgan('dev'));
@@ -22,8 +24,10 @@ app.post('/api/image', function (req, res) {
     var imageUri = req.body.imageUri;
     console.log(JSON.stringify(imageUri));
     //var imageUri = 'http://res.cloudinary.com/dlehndc9n/image/upload/v1471825024/vk5vs8sx045ir2rf0xc3.jpg'
-    vision.webDetection(imageUri, (err, data)=>{
-        res.json(data);
+    vision.webDetection(imageUri, (err, tags0)=>{
+        imagga.getTagging(imageUri, (err, tags1)=>{
+            res.json(tags0.concat(tags1));
+        });
     });
 })
 
