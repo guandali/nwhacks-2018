@@ -17,7 +17,7 @@ const routes: Routes =[
     // { path: 'signup',           component: SignupComponent },
     // { path: 'upload',          component: LandingComponent },
     // { path: 'nucleoicons',      component: NucleoiconsComponent },
-    // { path: '', redirectTo: 'home', pathMatch: 'full' }
+    { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({
